@@ -5,7 +5,6 @@ import vis from 'vis';
 import './App.css';
 
 const getFollowers = (data, user = null) => {
-
   let nodes = [
     { // root user node
       label: data.login,
@@ -72,15 +71,9 @@ class App extends Component {
 }
 class Toolbar extends Component {
   render() {
-    return <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      height: '100vh',
-      width: '20rem',
-      color: 'white',
-      background: 'rgba(0,0,0,0.7)'
-    }}>Hello</div>
+    return <div className="Toolbar">
+      <h1>Six degrees of devs</h1>
+    </div>
   }
 }
 
@@ -88,16 +81,10 @@ class Toolbar extends Component {
 class RelationGraph extends Component {
   componentDidMount() {
     this.createGraph(this.refs.el);
-    this.setWidth(this.refs.el);
   }
 
   componentDidUpdate() {
     this.createGraph(this.refs.el);
-    this.setWidth(this.refs.el);
-  }
-
-  setWidth(el) {
-
   }
 
   createGraph(el) {
@@ -110,16 +97,9 @@ class RelationGraph extends Component {
           border: '#406897',
           background: '#6AAFFF'
         },
-        font:{color:'#eee'}
+        font:{color:'rgb(247, 248, 251)'}
       },
-      edges: {
-        color: 'blue',
-        // "smooth": {
-        //   "type": "discrete",
-        //   "forceDirection": "none",
-        //   "roundness": 0.5
-        // }
-      },
+      edges: {},
       // layout: {
       //   improvedLayout: false
       // },
@@ -131,7 +111,7 @@ class RelationGraph extends Component {
   }
 
   render() {
-    return <div className="RelationGraph" style={{height: this.props.height}} ref="el"></div>
+    return <div className="RelationGraph" style={{paddingLeft: `20rem`, height: this.props.height}} ref="el"></div>
   }
 }
 
