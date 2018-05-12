@@ -1,27 +1,66 @@
 import gql from "graphql-tag";
 
-export const USERNAME = gql`
-    query getFollowers {
-        user(login:"faroutchris") {
+export const DEPTH_1 = gql`
+    query getFollowers($username: String!) {
+        user(login: $username) {
             avatarUrl
             login
-            followers(first: 30) {
+            followers(first: 20) {
                 totalCount
                 nodes {
                     avatarUrl
                     login
-                    followers(first: 30) {
+                }
+            }
+        }
+    }
+`;
+
+export const DEPTH_2 = gql`
+    query getFollowers($username: String!) {
+        user(login: $username) {
+            avatarUrl
+            login
+            followers(first: 20) {
+                totalCount
+                nodes {
+                    avatarUrl
+                    login
+                    followers(first: 20) {
                         totalCount
                         nodes {
                             avatarUrl
                             login
-                            # followers(first: 10) {
-                            #     totalCount
-                            #     nodes {
-                            #         login
-                            #         avatarUrl
-                            #     }
-                            # }
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+export const DEPTH_3 = gql`
+    query getFollowers($username: String!) {
+        user(login: $username) {
+            avatarUrl
+            login
+            followers(first: 20) {
+                totalCount
+                nodes {
+                    avatarUrl
+                    login
+                    followers(first: 20) {
+                        totalCount
+                        nodes {
+                            avatarUrl
+                            login
+                            followers(first: 20) {
+                                totalCount
+                                nodes {
+                                    login
+                                    avatarUrl
+                                }
+                            }
                         }
                     }
                 }

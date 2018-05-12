@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Karla');
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background:linear-gradient(45deg, rgb(47, 36, 59), rgb(46, 18, 75))
+  font-family: 'Karla', sans-serif;
+  background: linear-gradient(45deg, rgb(26, 26, 26), rgb(35, 35, 43))
 }
 
 .App {
@@ -42,15 +44,39 @@ body {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 20rem;
+  padding: 1rem;
+  /*width: 100%;*/
   color: white;
-  background: rgba(31, 21, 41, 0.4);
-  border-right: 1px solid rgba(91, 72, 112, 0.4)
+  background: rgba(35, 35, 43, 0.8);
+  border-right: 1px solid rgba(91, 72, 112, 0.2);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+}
+.Toolbar-title {
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.25rem;
+  padding: 0 0 1rem 0;
+  border-bottom: 1px solid rgba(65, 160, 211, 0.6);
+}
+@media screen and (min-width: 768px) {
+  .Toolbar {
+    width: 20rem;
+  }
+}
+
+.Message {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(247, 248, 251);
 }
 
 .RelationGraph {
 
 }
 .vis-network {
- 
+
 }
