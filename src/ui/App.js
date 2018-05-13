@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Query } from "react-apollo";
+import ReactDOM from 'react-dom';
+import { Query, ApolloProvider } from "react-apollo";
 import vis from 'vis';
+import { client } from './../client';
 import { DEPTH_1, DEPTH_2, DEPTH_3 } from './../api/username';
 import './App.css';
 
@@ -98,26 +100,13 @@ class App extends Component {
   }
 
   render() {
-    let GQL_QUERY;
-    switch(this.state.depth) {
-      case 1:
-        GQL_QUERY = DEPTH_1;
-        break;
-      case 2:
-        GQL_QUERY = DEPTH_2;
-        break;
-      case 3:
-        GQL_QUERY = DEPTH_3;
-        break;
-      default:
-        GQL_QUERY = DEPTH_2;
-    }
+    const GQL_QUERY = [DEPTH_1, DEPTH_2, DEPTH_3]
 
     return (
       <div className="App">
         {!! this.state.username.trim() ?
           <Query
-            query={GQL_QUERY}
+            query={GQL_QUERY[this.state.depth - 1]}
             variables={{
               username: this.state.username,
             }}
@@ -157,14 +146,14 @@ class App extends Component {
     );
   }
 }
-class Loader extends Component {
-  render() {
-    return <div className="Loader">
-      <div className="Loader-spinner"></div>
-      <div className="Loader-value">{this.props.progress}</div>
-    </div>
-  }
-}
+
+const Loader = (props) => (
+  <div className="Loader">
+    <div className="Loader-spinner"></div>
+    <div className="Loader-value">{props.progress}</div>
+  </div>
+);
+
 class Toolbar extends Component {
   render() {
     return <div className="Toolbar">
@@ -195,7 +184,7 @@ class RelationGraph extends Component {
     super(props);
     this.nodes = new vis.DataSet();
     this.edges = new vis.DataSet();
-    this.network;
+    this.network = null;
   }
   componentDidMount() {
     this.nodes.add(this.props.data.nodes);
@@ -270,4 +259,9 @@ class RelationGraph extends Component {
   }
 }
 
-export default App;
+export default ReactDOM.render(
+  <ApolloProvider client={client}>
+      <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+);
