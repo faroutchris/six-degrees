@@ -235,10 +235,6 @@ class RelationGraph extends Component {
       edges: this.edges
     }, options);
 
-    this.network.on("startStabilizing", (params) => {
-      this.props.callbacks.handleProgress(0);
-    });
-
     this.network.on("stabilizationProgress", (params) => {
       this.props.callbacks.handleProgress((params.iterations / params.total) * 100);
     });

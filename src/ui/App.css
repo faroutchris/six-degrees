@@ -46,6 +46,7 @@ body {
 }
 .Toolbar-search input[type="submit"] {
   background: rgb(65, 160, 211);
+  border: 1px solid rgb(65, 160, 211);
   color: white;
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
@@ -57,7 +58,7 @@ body {
   border: 0;
   border-bottom: 2px solid rgb(65, 160, 211);
   color: white;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem;
   font-size: 0.875rem;
   font-weight: 400;
 }
