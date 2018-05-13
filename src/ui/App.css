@@ -45,11 +45,10 @@ body {
   left: 0;
   height: 100vh;
   padding: 1rem;
-  /*width: 100%;*/
+  /* width: 100%; */
   color: white;
   background: rgba(35, 35, 43, 0.8);
   border-right: 1px solid rgba(91, 72, 112, 0.2);
-  box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
 }
 .Toolbar-title {
   font-size: 0.875rem;
@@ -66,15 +65,37 @@ body {
   }
 }
 
-.Message {
+.Loader {
+  position: absolute;
+  left: 95%;
+  top: 10%;
+  transform: translate(-50%, -50%);
+  color: rgb(247, 248, 251);
+}
+.Loader-spinner {
+  border: 16px solid rgba(65, 160, 211, 0.1);
+  border-top: 16px solid rgb(65, 160, 211);
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.Loader-value {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: rgb(247, 248, 251);
 }
 
+
 .RelationGraph {
+  height: 100vh;
+  width: 100%;
+  padding-left: 20rem;
 
 }
 .vis-network {
