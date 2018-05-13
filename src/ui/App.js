@@ -83,9 +83,9 @@ class App extends Component {
     });
   }
 
-  handleDepthChange(e) {
+  handleDepthChange(depth) {
     this.setState({
-      depth: Number(e.target.value)
+      depth: Number(depth)
     });
   }
 
@@ -114,7 +114,7 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className="App">
         {!! this.state.username.trim() ?
           <Query
             query={GQL_QUERY}
@@ -127,7 +127,7 @@ class App extends Component {
               if(loading) { return <p>Loading data</p>}
               if(error) {
                 console.log(error)
-                return <p>Error :(</p>
+                return <p>Error</p>
               };
               const networkData = createData(data.user);
 
@@ -142,12 +142,11 @@ class App extends Component {
           null
         }
         <Toolbar callbacks={{
-          handleUserChange: (e) => {
+          handleFormSubmit: (e) => {
             e.preventDefault();
-            console.log(e.target.depth.value)
-            this.handleUserChange(e.target.username.value)
+            this.handleUserChange(e.target.username.value);
           },
-          handleDepthChange: (e) => this.handleDepthChange(e)
+          handleDepthChange: (e) => this.handleDepthChange(e.target.value)
         }} data={this.state}/>
         {
           this.state.loading ?
@@ -171,24 +170,21 @@ class Toolbar extends Component {
     return <div className="Toolbar">
       <h1 className="Toolbar-title">Six degrees of devs</h1>
 
-      <form onSubmit={ this.props.callbacks.handleUserChange }>
-        {/*Username*/}
-        <div>
-        <label htmlFor="username">Username</label><br />
+      <form onSubmit={ this.props.callbacks.handleFormSubmit }
+        className="Toolbar-search">
+        <label htmlFor="username">Username: </label>
         <input type="text" id="username" />
-        </div>
+        <input type="submit" value="GO" />
+      </form>
 
-        {/*Depth*/}
-        <div>
-        <label htmlFor="depth">Depth</label><br />
-        <select id="depth" defaultValue="2">
+      <div className="Toolbar-depth">
+        <label htmlFor="depth">Depth: </label>
+        <select id="depth" defaultValue="2" onChange={ this.props.callbacks.handleDepthChange }>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
         </select>
-        </div>
-        <input type="submit" value="GO" />
-      </form>
+      </div>
     </div>
   }
 }
@@ -199,6 +195,7 @@ class RelationGraph extends Component {
     super(props);
     this.nodes = new vis.DataSet();
     this.edges = new vis.DataSet();
+    this.network;
   }
   componentDidMount() {
     this.nodes.add(this.props.data.nodes);
@@ -206,10 +203,10 @@ class RelationGraph extends Component {
     this.draw(this.refs.el);
   }
 
-  /**
-   * Only rerender graph when diffed
-   */
   componentWillReceiveProps(props) {
+    /**
+    * Only rerender graph when props and local vars diff
+    */
     let temp = [];
     for (let label in this.nodes._data) {
       temp.push(this.nodes._data[label]);
@@ -221,6 +218,13 @@ class RelationGraph extends Component {
       this.edges.add(this.props.data.edges);
       this.draw(this.refs.el);
     }
+  }
+
+  componentWillUnmount() {
+    this.network.off('startStabilizing');
+    this.network.off('stabilizationProgress');
+    this.network.off('doubleClick');
+    this.network = null;
   }
 
   draw(el) {
@@ -237,24 +241,24 @@ class RelationGraph extends Component {
       },
       edges: {},
     }
-    const network = new vis.Network(el, {
+    this.network = new vis.Network(el, {
       nodes: this.nodes,
       edges: this.edges
     }, options);
 
-    network.on("startStabilizing", (params) => {
+    this.network.on("startStabilizing", (params) => {
       this.props.callbacks.handleProgress(0);
     });
 
-    network.on("stabilizationProgress", (params) => {
+    this.network.on("stabilizationProgress", (params) => {
       this.props.callbacks.handleProgress((params.iterations / params.total) * 100);
     });
 
-    network.once("stabilizationIterationsDone", (params) => {
+    this.network.once("stabilizationIterationsDone", (params) => {
       this.props.callbacks.handleProgress(100);
     });
 
-    network.on("doubleClick", (params) => {
+    this.network.on("doubleClick", (params) => {
       if (params.nodes.length > 0) {
         this.props.callbacks.handleUserChange(params.nodes[0])
       }

@@ -11,7 +11,8 @@ body {
 }
 
 .App {
-  text-align: center;
+  width: 100%;
+  height: 100vh;
 }
 
 .App-logo {
@@ -43,32 +44,61 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
+  width: 100%;
   padding: 1rem;
-  /* width: 100%; */
   color: white;
   background: rgba(35, 35, 43, 0.8);
   border-right: 1px solid rgba(91, 72, 112, 0.2);
-}
-.Toolbar-title {
   font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 0.25rem;
-  padding: 0 0 1rem 0;
-  border-bottom: 1px solid rgba(65, 160, 211, 0.6);
 }
-@media screen and (min-width: 768px) {
-  .Toolbar {
-    width: 20rem;
-  }
+.Toolbar label {
+  margin-right: 1rem;
+}
+.Toolbar-title {
+  width: 33%;
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.25rem;
+}
+
+.Toolbar-search {
+  width: 33%;
+  display: inline-block;
+  text-align: center;
+}
+.Toolbar-search input[type="submit"] {
+  background: rgb(65, 160, 211);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border: 0;
+}
+.Toolbar-search input[type="text"] {
+  margin-right: 1rem;
+  background: rgba(35, 35, 43, 0.8);
+  border: 0;
+  border-bottom: 2px solid rgb(65, 160, 211);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.Toolbar-search input[type="text"]:focus {
+  outline: none;
+}
+.Toolbar-depth {
+  display: inline-block;
+  width: 33%;
+  text-align: right;
 }
 
 .Loader {
   position: absolute;
-  left: 95%;
-  top: 10%;
+  right: 2rem;
+  bottom: 2rem;
   transform: translate(-50%, -50%);
   color: rgb(247, 248, 251);
 }
@@ -91,13 +121,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-
 .RelationGraph {
   height: 100vh;
   width: 100%;
-  padding-left: 20rem;
-
-}
-.vis-network {
-
 }
