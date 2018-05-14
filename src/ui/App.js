@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Query, ApolloProvider } from "react-apollo";
 import vis from 'vis';
-import { client } from './../client';
-import { DEPTH_1, DEPTH_2, DEPTH_3 } from './../api/username';
+import { client } from './../api/client';
+import { DEPTH_1, DEPTH_2, DEPTH_3 } from './../api/query';
 import './App.css';
 
 /**
@@ -113,19 +113,21 @@ class App extends Component {
             errorPolicy={"all"}
           >
             {({ loading, error, data }) => {
-              if(loading) { return <p>Loading data</p>}
+              if(loading) {
+                return <p>Loading data</p>;
+              }
               if(error) {
-                console.log(error)
-                return <p>Error</p>
+                console.log(error);
+                return <p>Error</p>;
               };
+
               const networkData = createData(data.user);
 
-              return <RelationGraph
+              return <RelationGraph data={networkData}
                 callbacks={{
                   handleProgress: (val) => this.handleProgress(val),
                   handleUserChange: (val) => this.handleUserChange(val),
-                }}
-                data={networkData} />
+                }} />
               }}
           </Query> :
           null
