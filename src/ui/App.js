@@ -81,7 +81,7 @@ class App extends Component {
 
   handleUserChange(username) {
     this.setState({
-      username: username
+      username: username ? username : this.state.username
     });
   }
 
@@ -114,11 +114,10 @@ class App extends Component {
           >
             {({ loading, error, data }) => {
               if(loading) {
-                return <p>Loading data</p>;
+                return <Loader progress={null} />;
               }
               if(error) {
-                console.log(error);
-                return <p>Error</p>;
+                return <Message message={error.message}/>;
               };
 
               const networkData = createData(data.user);
@@ -156,6 +155,12 @@ const Loader = (props) => (
   </div>
 );
 
+const Message = (props) => (
+  <div className="Message">
+    {props.message}
+  </div>
+)
+
 class Toolbar extends Component {
   render() {
     return <div className="Toolbar">
@@ -187,37 +192,35 @@ class RelationGraph extends Component {
     this.nodes = new vis.DataSet();
     this.edges = new vis.DataSet();
     this.network = null;
+    this.localCopyOfNodeArray = null;
   }
+
   componentDidMount() {
     this.nodes.add(this.props.data.nodes);
     this.edges.add(this.props.data.edges);
-    this.draw(this.refs.el);
+    this.create(this.refs.el);
   }
 
   componentWillReceiveProps(props) {
     /**
     * Only rerender graph when props and local vars diff
     */
-    let temp = [];
-    for (let label in this.nodes._data) {
-      temp.push(this.nodes._data[label]);
-    }
-    if(JSON.stringify(temp) !== JSON.stringify(this.props.data.nodes)) {
+    if(JSON.stringify(this.localCopyOfNodeArray) !== JSON.stringify(props.data.nodes)) {
       this.nodes = new vis.DataSet();
       this.edges = new vis.DataSet();
       this.nodes.add(this.props.data.nodes);
       this.edges.add(this.props.data.edges);
-      this.draw(this.refs.el);
+      this.localCopyOfNodeArray = props.data.nodes;
     }
   }
 
   componentWillUnmount() {
-    this.network.off('stabilizationProgress');
+    this.network.off('stabilizationProgress'); // is .off needed?
     this.network.off('doubleClick');
     this.network = null;
   }
 
-  draw(el) {
+  create(el) {
     const options = {
       nodes: {
         borderWidth:4,
@@ -235,6 +238,8 @@ class RelationGraph extends Component {
       nodes: this.nodes,
       edges: this.edges
     }, options);
+
+    this.props.callbacks.handleProgress(0);
 
     this.network.on("stabilizationProgress", (params) => {
       this.props.callbacks.handleProgress((params.iterations / params.total) * 100);

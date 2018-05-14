@@ -7,12 +7,17 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Karla', sans-serif;
-  background: linear-gradient(45deg, rgb(26, 26, 26), rgb(35, 35, 43))
+  background: linear-gradient(to top, rgb(24, 24, 29), rgb(35, 35, 43));
 }
 
 .App {
   width: 100%;
   height: 100vh;
+}
+
+.RelationGraph {
+  height: 100vh;
+  width: 100%;
 }
 
 .Toolbar {
@@ -23,7 +28,7 @@ body {
   padding: 1rem;
   color: white;
   background: rgba(35, 35, 43, 0.8);
-  border-right: 1px solid rgba(91, 72, 112, 0.2);
+  border-bottom: 1px solid rgba(81, 72, 112, 0.2);
   font-size: 0.875rem;
   font-weight: 400;
   text-transform: uppercase;
@@ -36,9 +41,8 @@ body {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 400;
-  letter-spacing: 0.25rem;
+  letter-spacing: 0.125rem;
 }
-
 .Toolbar-search {
   width: 33%;
   display: inline-block;
@@ -75,7 +79,6 @@ body {
   position: absolute;
   right: 2rem;
   bottom: 2rem;
-  transform: translate(-50%, -50%);
   color: rgb(247, 248, 251);
 }
 .Loader-spinner {
@@ -86,18 +89,20 @@ body {
   height: 5rem;
   animation: spin 2s linear infinite;
 }
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 .Loader-value {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
-.RelationGraph {
-  height: 100vh;
-  width: 100%;
+.Message {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  color: #fafafa;
 }
