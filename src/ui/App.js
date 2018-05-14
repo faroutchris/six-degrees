@@ -45,8 +45,8 @@ const createData = data => {
   const followers = getFollowers(data)
 
   const uniqueNodes = followers.reduce((acc, curr) => {
-    let n = acc.filter(n => n.id === curr.id);
-    if (n.length === 0) {
+    let dup = acc.filter(n => n.id === curr.id);
+    if (dup.length === 0) {
       acc.push(curr);
     }
     return acc;
@@ -171,7 +171,7 @@ class Toolbar extends Component {
         <select id="depth" defaultValue="2" onChange={ this.props.callbacks.handleDepthChange }>
           <option value="1">1</option>
           <option value="2">2</option>
-          <option value="3">3</option>
+          <option value="3">3 (Warning!)</option>
         </select>
       </div>
     </div>
@@ -210,7 +210,6 @@ class RelationGraph extends Component {
   }
 
   componentWillUnmount() {
-    this.network.off('startStabilizing');
     this.network.off('stabilizationProgress');
     this.network.off('doubleClick');
     this.network = null;
